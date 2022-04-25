@@ -96,14 +96,15 @@ public class Canvas extends PApplet {
 						cnt = cnt + (this.state[i + n[0]][j+n[1]].isActive()? 1:0);
 					} catch(IndexOutOfBoundsException e){continue;}
 				}
-					if(cnt == 3)
-						active = true;
-					else if(cnt > 3 || cnt < 2)
-						active = false;
-					else
-						active = cell.isActive();
 
-					newState[i][j] = new Cell(cell.getX(), cell.getY(), active);
+				if(cnt == 3)
+					active = true;
+				else if(cnt > 3 || cnt < 2)
+					active = false;
+				else
+					active = cell.isActive();
+
+				newState[i][j] = new Cell(cell.getX(), cell.getY(), active);
 			}
 		}
 		this.state = newState;
