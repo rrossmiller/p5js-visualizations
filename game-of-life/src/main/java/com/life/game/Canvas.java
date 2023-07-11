@@ -81,9 +81,9 @@ public class Canvas extends PApplet {
 
 		int cnt;
 		int[][] neighbours = {{-1,-1}, {0, -1}, {1,-1},
-													{-1,0}          , {1,0},
-													{-1,1},  {0, 1},  {1,1}
-													};
+						  	  {-1,0}          , {1,0},
+							  {-1,1},  {0, 1},  {1,1}
+							  };
 		Cell[][] newState = new Cell[this.numCols][this.numRows];
 		Cell cell;
 		boolean active;
