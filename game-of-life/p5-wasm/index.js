@@ -1,36 +1,31 @@
-import init, {setup, getState} from './gol/pkg/gol.js';
+import init, {GameOfLife} from './gol/pkg/gol.js';
 
-const l = 10;
-const nCols = 30;
+const l = 8;
+const nCols = 80;
 // const nRows = 20;
 const nRows = nCols; // indexing isn't working for any grid. only nxn
 
 const w = nRows * l;
 const h = nCols * l;
 
-let grid = [];
-let n = 0;
+// change this to game. instantiate game and show checkerboard from wasm
+let game;
 const sketch = new p5((p5) => {
     p5.setup = async () => {
-        grid = await setupGrid();
+        await init().catch(console.error);
+        game = new GameOfLife(nRows, nCols);
+        game.checkerboard();
+
         p5.createCanvas(w, h);
-        console.log(grid);
     };
+
     p5.draw = () => {
         drawGrid(p5);
     };
 });
 
-async function setupGrid() {
-    const grid = await init().then(() => {
-        return setup(nRows, nCols);
-    });
-    return grid;
-}
-
 function drawGrid(p5) {
-    if (n > nRows * nCols) n = 0;
-    grid = getState(nRows, nCols, n++);
+    const grid = game.step();
 
     for (let r = 0; r < nRows; r++) {
         for (let c = 0; c < nCols; c++) {
