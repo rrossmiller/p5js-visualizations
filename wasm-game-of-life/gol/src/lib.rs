@@ -3,25 +3,14 @@ use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
 extern "C" {
-    fn alert(s: &str);
-
-    #[wasm_bindgen(js_namespace = console)]
-    fn log(s: &str);
+    // #[wasm_bindgen(js_namespace = console)]
+    // fn log(s: &str);
     // #[wasm_bindgen(js_namespace = console)]
     // fn log(s: i8);
     // #[wasm_bindgen(js_namespace = console)]
     // fn log(s: bool);
 }
 
-#[wasm_bindgen]
-pub fn greet() -> Vec<i32> {
-    alert("Hello, gol!");
-    let mut rtn = vec![];
-    for i in 1..10 {
-        rtn.push(i as i32)
-    }
-    rtn
-}
 
 //-----
 /*

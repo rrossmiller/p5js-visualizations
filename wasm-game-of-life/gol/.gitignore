@@ -1,4 +1,3 @@
 /target
 bin/
-pkg/
 wasm-pack.log
