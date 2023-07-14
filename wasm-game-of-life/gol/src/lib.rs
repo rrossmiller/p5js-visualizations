@@ -133,8 +133,6 @@ impl GameOfLife {
                     new_state[i][j] = 1;
                 } else if new_state[i][j] == 1 && (score > 3 || score < 2) {
                     new_state[i][j] = 0;
-                    // } else if score > 3 || score < 2 {
-                    //     new_state[i][j] = 0;
                 }
             }
         }

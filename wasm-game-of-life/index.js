@@ -1,10 +1,17 @@
 import init, {GameOfLife} from './gol/pkg/gol.js';
 
-const l = 8;
-const nCols = 90;
-//benchmark...
-// const l = 3;
-// const nCols = 213;
+const benchmark = true;
+
+let l = 8;
+let nCols = 90;
+if (benchmark) {
+    l = 3;
+    nCols = 213;
+
+    l = 4;
+    nCols = 200;
+}
+
 const nRows = nCols; // indexing isn't working for any grid. only nxn
 
 const w = nRows * l;
@@ -17,8 +24,8 @@ const sketch = new p5((p5) => {
         // p5.frameRate(1);
         await init().catch(console.error);
         game = new GameOfLife(nRows, nCols);
-        // game.checkerboard();
         game.init(0.15);
+        game.checkerboard();
 
         p5.createCanvas(w, h);
     };
