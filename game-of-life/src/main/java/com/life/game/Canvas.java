@@ -5,7 +5,8 @@ import processing.core.PApplet;
 public class Canvas extends PApplet {
 	private int numRows;
 	private int numCols;
-	private int scale = 8;
+	// private int scale = 8;
+	private int scale = 3;
 	private Cell[][] state;
 	private boolean pause;
 
@@ -20,14 +21,16 @@ public class Canvas extends PApplet {
 
 		this.numCols = x / scale;
 		this.numRows = y / scale;
+		System.out.println(this.numCols);
 		this.state = new Cell[this.numCols][this.numRows];
 
 		setState();
-		
+
 		this.pause = false;
 	}
-	private void setState(){
-		int x,y;
+
+	private void setState() {
+		int x, y;
 		// loop for columns
 		for (int i = 0; i < this.numCols; i++) {
 			// loop for this.numRows
@@ -35,7 +38,7 @@ public class Canvas extends PApplet {
 				// Scaling up to draw a rectangle at (x,y)
 				x = i * scale;
 				y = j * scale;
-				this.state[i][j] = new Cell(x, y, (Math.random() < 0.1));
+				this.state[i][j] = new Cell(x, y, (Math.random() < 0.15));
 			}
 		}
 	}
@@ -44,13 +47,13 @@ public class Canvas extends PApplet {
 	public void draw() {
 		background(0);
 		this.drawGrid();
-		if(!this.pause)
+		if (!this.pause)
 			this.updateState();
 		delay(100);
 	}
 
 	@Override
-	public void delay(int millis){
+	public void delay(int millis) {
 		try {
 			Thread.sleep(millis);
 		} catch (InterruptedException e) {
@@ -58,32 +61,34 @@ public class Canvas extends PApplet {
 		}
 
 	}
-	public void drawGrid(){
+
+	public void drawGrid() {
 		Cell cell;
 		// loop for columns
 		for (int i = 0; i < this.numCols; i++) {
 			// loop for rows
 			for (int j = 0; j < this.numRows; j++) {
 				cell = this.state[i][j];
-				fill(255 * (float)(cell.isActive()? 1:0.3));
+				fill(255 * (float) (cell.isActive() ? 1 : 0.3));
 				stroke(0);
 				rect(cell.getX(), cell.getY(), scale, scale);
 			}
 		}
 	}
 
-	public void updateState(){
+	public void updateState() {
 		/*
-			Any live cell with two or three live neighbours survives.
-			Any dead cell with three live neighbours becomes a live cell.
-			All other live cells die in the next generation. Similarly, all other dead cells stay dead.
-		*/
+		 * Any live cell with two or three live neighbours survives.
+		 * Any dead cell with three live neighbours becomes a live cell.
+		 * All other live cells die in the next generation. Similarly, all other dead
+		 * cells stay dead.
+		 */
 
 		int cnt;
-		int[][] neighbours = {{-1,-1}, {0, -1}, {1,-1},
-						  	  {-1,0}          , {1,0},
-							  {-1,1},  {0, 1},  {1,1}
-							  };
+		int[][] neighbours = { { -1, -1 }, { 0, -1 }, { 1, -1 },
+				{ -1, 0 }, { 1, 0 },
+				{ -1, 1 }, { 0, 1 }, { 1, 1 }
+		};
 		Cell[][] newState = new Cell[this.numCols][this.numRows];
 		Cell cell;
 		boolean active;
@@ -91,15 +96,17 @@ public class Canvas extends PApplet {
 			for (int j = 0; j < this.numRows; j++) {
 				cnt = 0;
 				cell = this.state[i][j];
-				for(int[] n: neighbours){
+				for (int[] n : neighbours) {
 					try {
-						cnt = cnt + (this.state[i + n[0]][j+n[1]].isActive()? 1:0);
-					} catch(IndexOutOfBoundsException e){continue;}
+						cnt = cnt + (this.state[i + n[0]][j + n[1]].isActive() ? 1 : 0);
+					} catch (IndexOutOfBoundsException e) {
+						continue;
+					}
 				}
 
-				if(cnt == 3)
+				if (cnt == 3)
 					active = true;
-				else if(cnt > 3 || cnt < 2)
+				else if (cnt > 3 || cnt < 2)
 					active = false;
 				else
 					active = cell.isActive();
@@ -111,15 +118,13 @@ public class Canvas extends PApplet {
 	}
 
 	@Override
-	public void mousePressed(){
+	public void mousePressed() {
 		this.pause = !this.pause;
 	}
 
-	public void keyPressed(){
-		if(key == 'r') 
+	public void keyPressed() {
+		if (key == 'r')
 			setState();
 
 	}
 }
-
-
