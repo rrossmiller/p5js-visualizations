@@ -11,7 +11,6 @@ extern "C" {
     // fn log(s: bool);
 }
 
-
 //-----
 /*
     Game Of Life
@@ -38,11 +37,9 @@ impl GameOfLife {
 
     #[wasm_bindgen]
     pub fn checkerboard(&mut self) {
-        let rows = self.rows;
-        let cols = self.cols;
-        let mut state: Vec<Vec<i8>> = vec![vec![0; cols]; rows];
-        for row in 0..rows {
-            for col in 0..cols {
+        let mut state: Vec<Vec<i8>> = vec![vec![0; self.cols]; self.rows];
+        for row in 0..self.rows {
+            for col in 0..self.cols {
                 let i = if (row % 2 == 0) && col % 2 == 0 {
                     1
                 } else if (row % 2 != 0) && col % 2 != 0 {

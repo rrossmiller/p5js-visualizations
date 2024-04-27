@@ -1,4 +1,4 @@
-import init, {GameOfLife} from './gol_rust/pkg/gol.js';
+import GameOfLife from "./gol_js/gol.js";
 
 const benchmark = true;
 
@@ -17,33 +17,33 @@ const nRows = nCols; // indexing isn't working for any grid. only nxn
 const w = nRows * l;
 const h = nCols * l;
 
-// change this to game. instantiate game and show checkerboard from wasm
 let game;
-const sketch = new p5((p5) => {
+// const sketch = new p5((p5) => {
+new p5((p5) => {
   p5.setup = async () => {
-    // p5.frameRate(1);
-    await init().catch(console.error);
     game = new GameOfLife(nRows, nCols);
-    // game.init(0.15);
-    game.checkerboard();
+    game.init(0.15);
+    // game.checkerboard();
 
     p5.createCanvas(w, h);
   };
 
   p5.draw = () => {
+    p5.text("something isn't right", 5000, 25);
     console.log("frame rate:", p5.frameRate());
-    drawGrid(p5);
+    const grid = game.step();
+    drawGrid(p5, grid);
+    return;
   };
 });
 
-function drawGrid(p5) {
-  const grid = game.step();
-
+function drawGrid(p5, grid) {
   for (let r = 0; r < nRows; r++) {
     for (let c = 0; c < nCols; c++) {
       // const state = grid[r * nCols + c]; // this goes col by col
       const state = grid[c * nRows + r]; // this goes row by row
-      if (state === 0) {
+
+      if (state < 1) {
         p5.fill(105);
       } else {
         p5.fill(200);
